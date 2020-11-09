@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>서버로 데이터 보내기</h1>
+	<hr>
+	<form action="/sendData2" method="get">
+		문자 : <input type="text" name="str1"><br>
+		숫자 : <input type="text" name="num"><br>
+		라디오 버튼 : <input type="radio" name="gender" value="남">남자<input type="radio" name="gender" value="여">여자<br>
+		체크박스 : <input type="checkbox" name="hobby" value="java">자바<input type="checkbox" name="hobby" value="oracle">오라클<input type="checkbox" name="hobby" value="javascript">자바스크립트<br>
+		선택박스 : <select name="age">
+			<option value="20">20대</option>
+			<option value="30">30대</option>
+			<option value="40">40대</option>
+			<option value="50">50대</option>
+			<option value="60">60대</option>
+		</select>
+		<input type="submit" value="서버로 전송">
+	</form>
+	<input type="text" name="str2">
+	
+</body>
+</html>
