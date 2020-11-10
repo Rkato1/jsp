@@ -56,8 +56,8 @@ public class MyPageServlet extends HttpServlet {
 			out.println("이메일 : <input type='text' name='email' value='"+m.getEmail()+"'><br>");
 			out.println("성별 : <input type='text' name='gender' value='"+m.getGender()+"' readonly><br>");
 			out.println("가입일 : <input type='text' name='enrollDate' value='"+m.getEnrollDate()+"' readonly><br>");
-			out.println("</form>");
 			out.println("<input type='submit' value='정보수정'><br>");
+			out.println("</form>");
 			out.println("<a href='/'>메인페이지로 이동</a>");
 			out.println("</fieldset>");
 		}else {
