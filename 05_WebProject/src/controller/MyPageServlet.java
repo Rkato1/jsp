@@ -35,9 +35,9 @@ public class MyPageServlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
 		String memId = request.getParameter("memId");
-		System.out.println(memId);
+		//System.out.println(memId);
 		Member m = new MemberService().selectOneMember(memId);
-		System.out.println(m);
+		//System.out.println(m);
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/member/mypage.jsp");
 		request.setAttribute("memberMypage", m);		
 		rd.forward(request, response);

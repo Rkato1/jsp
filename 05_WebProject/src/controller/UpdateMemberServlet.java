@@ -46,6 +46,9 @@ public class UpdateMemberServlet extends HttpServlet {
 		m.setPhone(request.getParameter("phone"));
 		int result = new MemberService().updateMember(m);
 		RequestDispatcher rd = request.getRequestDispatcher("/myPage");
+		if(result>0) {
+			//알림을 넣어야함
+		}
 		rd.forward(request, response);
 	}
 

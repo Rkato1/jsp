@@ -4,9 +4,7 @@
     <%
     	ArrayList<Member> list = (ArrayList<Member>)request.getAttribute("list");
     	String keyword = (String)request.getAttribute("keyword");
-    	String type = (String)request.getAttribute("type");
-    	System.out.println(keyword);
-    	System.out.print(type);
+    	String type = (String)request.getAttribute("type");    	
     %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
