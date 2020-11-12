@@ -25,7 +25,7 @@
 		<%if(result == true) {%>
 			[<span><%=checkId %></span>]는 사용이 가능합니다.
 			<br><br>
-			<button onclick="closeWindow();">닫기</button>
+			<button onclick="closeWindow('<%=checkId%>');">닫기</button>
 		<%} else{%>
 			[<span id="checked"><%=checkId %></span>]는 이미 사용중입니다.
 			<br><br>
@@ -34,6 +34,19 @@
 				<button type="submit">중복검사</button>
 			</form>
 		<%} %>
-	</div>	
+	</div>
+	<script>
+		function closeWindow(checkId){
+			//alert(checkId);
+			//opener-이 창을 열어준 부모
+			var memId = opener.document.getElementById("memId");
+			var memPw = opener.document.getElementById("memPw");
+			memId.value = checkId;
+			//초점 옮기기
+			memPw.focus();
+			//팝업창 끄기
+			self.close();
+		}
+	</script>
 </body>
 </html>

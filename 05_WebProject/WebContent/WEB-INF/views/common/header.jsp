@@ -36,7 +36,7 @@
 						<li class="nav-item"><button class="btn btn-danger" onclick="location.href='/views/member/login.jsp'">로그인</button></li>
 						<li class="nav-item"><button class="btn btn-danger" onclick="location.href='/views/member/join.jsp'">회원가입</button></li>
 						<%}else {%>
-						<li class="nav-item"><button class="btn btn-danger" onclick="location.href='/views/member/mypage.jsp'"><%=m.getMemName() %></button></li>
+						<li class="nav-item"><button class="btn btn-danger" onclick="location.href='/myPage?memId=<%=m.getMemId() %>'"><%=m.getMemId() %></button></li>
 						<li class="nav-item"><button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button></li>
 						<%} %>
 					</ul>
