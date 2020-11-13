@@ -66,15 +66,17 @@ public class BoardService {
 			if(max<=pageNaviSize) {
 				max=pageNaviSize+1;
 			}
-			System.out.println("aftermax"+max);
+			System.out.println("aftermax1"+max);
 			int min = reqPage-pageNaviSize/2;
 			if(min<1) {
 				min=1;
 			}
-//			else if(max>totalPage) {
-//				min=reqPage-(pageNaviSize/2)*2;
-//				max=totalPage;
-//			}
+			else if(max>totalPage) {
+				min=reqPage-(pageNaviSize/2)*2;
+				max=totalPage;
+			}
+			System.out.println("aftermin"+min);
+			System.out.println("aftermax2"+max);
 			for(int i=min; i<max; i++) {				
 				if(reqPage==i) {
 					pageNavi += "<span class='selectPage'>"+i+"</span>";
