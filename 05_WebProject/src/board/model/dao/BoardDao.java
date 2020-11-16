@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import board.model.vo.Board;
 import common.JDBCTemplate;
-import notice.model.vo.Notice;
+import board.model.vo.Board;
 
 public class BoardDao {
 	
@@ -71,4 +71,91 @@ public class BoardDao {
 		return result;
 	}
 
+	public int insertBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="insert into board values(board_seq.nextval,?,?,?,to_char(sysdate,'yyyy-mm-dd'),?,?)";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardWriter());
+			pstmt.setString(3, b.getBoardContent());
+			pstmt.setString(4, b.getFilename());
+			pstmt.setString(5, b.getFilepath());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public Board selectOneBoard(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		Board n = null;
+		String query = "select * from board where board_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, boardNo);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				n = new Board();
+				n.setBoardNo(rset.getInt("board_no"));
+				n.setBoardTitle(rset.getString("board_title"));
+				n.setBoardWriter(rset.getString("board_writer"));
+				n.setBoardContent(rset.getString("board_content"));
+				n.setBoardDate(rset.getString("board_date"));
+				n.setFilename(rset.getString("filename"));
+				n.setFilepath(rset.getString("filepath"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return n;
+	}
+
+	public int deleteBoard(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="delete from board where board_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, boardNo);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="update board set board_title=?,board_content=?,filename=?,filepath=? where board_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardContent());
+			pstmt.setString(3, b.getFilename());
+			pstmt.setString(4, b.getFilepath());
+			pstmt.setInt(5, b.getBoardNo());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
 }

@@ -1,28 +1,23 @@
 package board.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.BoardPageData;
-
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class BoardWriteFormServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "BoardWriteForm", urlPatterns = { "/boardWriteForm" })
+public class BoardWriteFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public BoardWriteFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,13 +28,7 @@ public class BoardListServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		BoardPageData npd = new BoardService().selectList(reqPage);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
-		rd.forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/board/boardWriteForm.jsp").forward(request, response);
 	}
 
 	/**

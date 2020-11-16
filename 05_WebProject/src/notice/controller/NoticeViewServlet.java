@@ -1,4 +1,4 @@
-package board.controller;
+package notice.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.BoardPageData;
+import notice.model.service.NoticeService;
+import notice.model.vo.Notice;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class NoticeViewServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView" })
+public class NoticeViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public NoticeViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +34,18 @@ public class BoardListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		BoardPageData npd = new BoardService().selectList(reqPage);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
-		rd.forward(request, response);
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		Notice n = new NoticeService().selectOneNotice(noticeNo);
+		if(n == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("msg", "공지사항이 없습니다.");
+			request.setAttribute("loc", "/noticeList?reqPage=1");
+			rd.forward(request, response);
+		}else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
+			request.setAttribute("n", n);
+			rd.forward(request, response);
+		}
 	}
 
 	/**

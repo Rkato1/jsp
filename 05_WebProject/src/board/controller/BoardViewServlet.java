@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
-import board.model.vo.BoardPageData;
+import board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class BoardViewServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "BoardView", urlPatterns = { "/boardView" })
+public class BoardViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public BoardViewServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +34,18 @@ public class BoardListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		BoardPageData npd = new BoardService().selectList(reqPage);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
-		rd.forward(request, response);
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		Board b = new BoardService().selectOneBoard(boardNo);
+		if(b == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+			request.setAttribute("msg", "공지사항이 없습니다.");
+			request.setAttribute("loc", "/boardList?reqPage=1");
+			rd.forward(request, response);
+		}else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardView.jsp");
+			request.setAttribute("b", b);
+			rd.forward(request, response);
+		}
 	}
 
 	/**

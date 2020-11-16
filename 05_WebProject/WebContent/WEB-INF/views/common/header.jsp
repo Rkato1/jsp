@@ -13,7 +13,8 @@
 	<div class="main_menu">
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<div class="container">
-				<a href="navbar-brand logo_h" href="/">
+				<!-- a href="navbar-brand logo_h" href="/"-->
+				<a href="/">
 					<img src="/img/logo.png" width="165" height="80">
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-labl="Toggle navigation">

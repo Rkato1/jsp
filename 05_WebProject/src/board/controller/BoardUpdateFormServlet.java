@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import board.model.service.BoardService;
-import board.model.vo.BoardPageData;
+import board.model.vo.Board;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class BoardUpdateFormServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "BoardUpdateForm", urlPatterns = { "/boardUpdateForm" })
+public class BoardUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public BoardUpdateFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +34,18 @@ public class BoardListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		BoardPageData npd = new BoardService().selectList(reqPage);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		Board b = new BoardService().selectOneBoard(boardNo);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardUpdateForm.jsp");
+		request.setAttribute("b", b);
 		rd.forward(request, response);
+		//기존 첨부 파일이 있는 경우
+		//-변화없이 적용 되는 경우
+		//-기존 파일 삭제 후 새 파일이 업로드 되는 경우
+		
+		//기존 첨부 파일이 없는 경우
+		//-변화없이 적용 되는 경우
+		//-새 파일이 업로드 되는 경우
 	}
 
 	/**

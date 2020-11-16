@@ -25,6 +25,11 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<section>
 		<div class="table-wrapper" style="text-align:center;width:80%;margin:0 auto;">
+			<%if(m!=null && m.getMemLevel() == 1){ %>
+			<div style="text-align:right;">
+				<a href="/noticeWriteForm" class="btn btn-primary btn-sm">글쓰기</a>
+			</div>
+			<%} %>
 			<table class="table table-striped">
 				<tr>
 					<th colspan="4" style="font-size:20px; font-weight: bold">

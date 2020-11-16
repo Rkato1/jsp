@@ -66,6 +66,10 @@ public class Notice {
 	public String getNoticeContent() {
 		return noticeContent;
 	}
+	//자바에서의 개행과 html에서의 개행이 다르므로 변환
+	public String getNoticeContentBr() {
+		return noticeContent.replaceAll("\r\n", "<br>");
+	}
 	/**
 	 * @param noticeContent the noticeContent to set
 	 */

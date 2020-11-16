@@ -66,6 +66,9 @@ public class Board {
 	public String getBoardContent() {
 		return boardContent;
 	}
+	public String getBoardContentBr() {
+		return boardContent.replaceAll("\r\n", "<br>");
+	}
 	/**
 	 * @param boardContent the boardContent to set
 	 */

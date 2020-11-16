@@ -1,4 +1,4 @@
-package board.controller;
+package notice.controller;
 
 import java.io.IOException;
 
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import board.model.service.BoardService;
-import board.model.vo.BoardPageData;
+import notice.model.service.NoticeService;
+import notice.model.vo.Notice;
 
 /**
- * Servlet implementation class BoardListServlet
+ * Servlet implementation class NoticeUpdateFormServlet
  */
-@WebServlet(name = "BoardList", urlPatterns = { "/boardList" })
-public class BoardListServlet extends HttpServlet {
+@WebServlet(name = "NoticeUpdateForm", urlPatterns = { "/noticeUpdateForm" })
+public class NoticeUpdateFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardListServlet() {
+    public NoticeUpdateFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +34,18 @@ public class BoardListServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		BoardPageData npd = new BoardService().selectList(reqPage);
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		Notice n = new NoticeService().selectOneNotice(noticeNo);
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeUpdateForm.jsp");
+		request.setAttribute("n", n);
 		rd.forward(request, response);
+		//기존 첨부 파일이 있는 경우
+		//-변화없이 적용 되는 경우
+		//-기존 파일 삭제 후 새 파일이 업로드 되는 경우
+		
+		//기존 첨부 파일이 없는 경우
+		//-변화없이 적용 되는 경우
+		//-새 파일이 업로드 되는 경우
 	}
 
 	/**

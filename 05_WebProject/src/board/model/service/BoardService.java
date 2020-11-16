@@ -1,12 +1,14 @@
-package board.model.service.copy;
+package board.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 
-import common.JDBCTemplate;
 import board.model.dao.BoardDao;
 import board.model.vo.Board;
 import board.model.vo.BoardPageData;
+import common.JDBCTemplate;
+import board.model.dao.BoardDao;
+import board.model.vo.Board;
 
 public class BoardService {
 
@@ -126,6 +128,55 @@ public class BoardService {
 //		BoardPageData npd = new BoardPageData(list, pageNavi);
 //		JDBCTemplate.close(conn);
 //		return npd;
+	}
+	
+	public int insertBoard(Board b) {
+		// TODO Auto-generated method stub
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new BoardDao().insertBoard(conn, b);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+	
+	public Board selectOneBoard(int boardNo){
+		Connection conn = JDBCTemplate.getConnection();
+		Board n = new BoardDao().selectOneBoard(conn, boardNo);
+		if(n!=null) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return n;
+	}
+
+	public int deleteBoard(int boardNo) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new BoardDao().deleteBoard(conn, boardNo);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
+	}
+
+	public int updateBoard(Board b) {
+		Connection conn = JDBCTemplate.getConnection();
+		int result = new BoardDao().updateBoard(conn, b);
+		if(result>0) {
+			JDBCTemplate.commit(conn);
+		}else {
+			JDBCTemplate.rollback(conn);
+		}
+		JDBCTemplate.close(conn);
+		return result;
 	}
 
 }
