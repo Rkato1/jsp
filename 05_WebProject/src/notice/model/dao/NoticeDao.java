@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import common.JDBCTemplate;
 import notice.model.vo.Notice;
+import notice.model.vo.NoticeComment;
 
 public class NoticeDao {
 	
@@ -150,6 +151,98 @@ public class NoticeDao {
 			pstmt.setString(3, n.getFilename());
 			pstmt.setString(4, n.getFilepath());
 			pstmt.setInt(5, n.getNoticeNo());
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int insertNoticeComment(Connection conn, NoticeComment nc) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="insert into notice_comment values(notice_comment_seq.nextval,?,?,?,?,?,to_char(sysdate,'yyyy-mm-dd'))";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, nc.getNoticeCommentLevel());
+			pstmt.setString(2, nc.getNoticeCommentWriter());
+			pstmt.setString(3, nc.getNoticeCommentContent());
+			pstmt.setInt(4, nc.getNoticeRef());
+			if(nc.getNoticeCommentRef()==0) {
+				//오라클은 숫자에도 null 대입가능
+				pstmt.setString(5, null);
+			}else {
+				pstmt.setInt(5, nc.getNoticeCommentRef());
+			}
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public ArrayList<NoticeComment> selectNoticeCommentList(Connection conn, int noticeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<NoticeComment> list = new ArrayList<NoticeComment>();
+		//먼저 작성한 순서대로
+		String query = "select * from notice_comment where notice_ref=? order by 1";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+			rset = pstmt.executeQuery();
+			while(rset.next()) {
+				NoticeComment nc = new NoticeComment();
+				nc.setNoticeCommentNo(rset.getInt("notice_comment_no"));
+				nc.setNoticeCommentLevel(rset.getInt("notice_comment_level"));
+				nc.setNoticeCommentWriter(rset.getString("notice_comment_writer"));
+				nc.setNoticeCommentContent(rset.getString("notice_comment_content"));
+				nc.setNoticeRef(rset.getInt("notice_ref"));
+				nc.setNoticeCommentRef(rset.getInt("notice_comment_ref"));
+				nc.setNoticeCommentDate(rset.getString("notice_comment_date"));
+				list.add(nc);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(rset);
+			JDBCTemplate.close(pstmt);
+		}
+		return list;
+	}
+
+	public int deleteNoticeComment(Connection conn, int noticeCommentNo) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="delete from notice_comment where notice_comment_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeCommentNo);
+			result=pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			JDBCTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	public int updateNoticeComment(Connection conn, int noticeCommentNo, String noticeCommentContent) {
+		PreparedStatement pstmt = null;
+		int result=0;
+		String query="update notice_comment set notice_comment_content=? where notice_comment_no=?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, noticeCommentContent);
+			pstmt.setInt(2, noticeCommentNo);
 			result=pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

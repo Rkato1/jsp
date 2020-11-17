@@ -1,29 +1,25 @@
-package notice.controller;
+package ajax.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticeViewData;
-
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class AjaxTest1Servlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "AjaxTest4", urlPatterns = { "/ajaxTest4" })
+public class AjaxTest4Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewServlet() {
+    public AjaxTest4Servlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,19 +31,10 @@ public class NoticeViewServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		NoticeViewData nvd = new NoticeService().selectOneNoticeView(noticeNo);
-		if(nvd.getN() == null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("msg", "공지사항이 없습니다.");
-			request.setAttribute("loc", "/noticeList?reqPage=1");
-			rd.forward(request, response);
-		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", nvd.getN());
-			request.setAttribute("list", nvd.getList());
-			rd.forward(request, response);
-		}
+		String name = request.getParameter("name");
+		String addr = request.getParameter("addr");
+		int age = Integer.parseInt(request.getParameter("age"));
+		System.out.println(name+", "+age+", "+addr);		
 	}
 
 	/**

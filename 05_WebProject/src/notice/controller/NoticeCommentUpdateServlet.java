@@ -10,20 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticeViewData;
 
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class NoticeCommentUpdateServlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "NoticeCommentUpdate", urlPatterns = { "/noticeCommentUpdate" })
+public class NoticeCommentUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewServlet() {
+    public NoticeCommentUpdateServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,19 +33,20 @@ public class NoticeViewServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
+		int noticeCommentNo = Integer.parseInt(request.getParameter("noticeCommentNo"));
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		NoticeViewData nvd = new NoticeService().selectOneNoticeView(noticeNo);
-		if(nvd.getN() == null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("msg", "공지사항이 없습니다.");
-			request.setAttribute("loc", "/noticeList?reqPage=1");
-			rd.forward(request, response);
+		String noticeCommentContent = request.getParameter("noticeCommentContent");
+		
+		int result = new NoticeService().updateNoticeComment(noticeCommentNo, noticeCommentContent);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(result>0) {
+			request.setAttribute("msg", "변경 성공");
 		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", nvd.getN());
-			request.setAttribute("list", nvd.getList());
-			rd.forward(request, response);
+			request.setAttribute("msg", "변경 실패");
 		}
+		request.setAttribute("loc", "/noticeView?noticeNo="+noticeNo);
+		rd.forward(request, response);
 	}
 
 	/**

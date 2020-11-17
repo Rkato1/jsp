@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticeViewData;
+import notice.model.vo.NoticeComment;
 
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class InsertNoticeCommentServlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "InsertNoticeComment", urlPatterns = { "/insertNoticeComment" })
+public class InsertNoticeCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewServlet() {
+    public InsertNoticeCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,19 +34,22 @@ public class NoticeViewServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		NoticeViewData nvd = new NoticeService().selectOneNoticeView(noticeNo);
-		if(nvd.getN() == null) {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-			request.setAttribute("msg", "공지사항이 없습니다.");
-			request.setAttribute("loc", "/noticeList?reqPage=1");
-			rd.forward(request, response);
+		NoticeComment nc = new NoticeComment();
+		nc.setNoticeCommentLevel(Integer.parseInt(request.getParameter("noticeCommentLevel")));
+		nc.setNoticeCommentWriter(request.getParameter("noticeCommentWriter"));
+		nc.setNoticeCommentContent(request.getParameter("noticeCommentContent"));
+		nc.setNoticeRef(Integer.parseInt(request.getParameter("noticeRef")));
+		nc.setNoticeCommentRef(Integer.parseInt(request.getParameter("noticeCommentRef")));
+		int result = new NoticeService().insertNoticeComment(nc);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
+		if(result>0) {
+			request.setAttribute("msg", "댓글 등록 성공");
 		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
-			request.setAttribute("n", nvd.getN());
-			request.setAttribute("list", nvd.getList());
-			rd.forward(request, response);
+			request.setAttribute("msg", "댓글 등록 실패");
 		}
+		request.setAttribute("loc", "/noticeView?noticeNo="+nc.getNoticeRef());
+		rd.forward(request, response);
 	}
 
 	/**
