@@ -38,10 +38,71 @@
 			유저 이름 : <input type="text" id="userName"><br>
 			<button class="btn btn-primary" id="jQ5">실행</button>
 			<p id="p5" class="border border-danger"></p>
+			<hr>
+			<h3>6. 서버로 기본형 전송값을 보내고, 결과를 리스트 객체 받아서 처리</h3>
+			<p>JSON사용</p>
+			<p>유저 이름을 입력하여 해당 유저 정보를 가져오기 -> 유저가 없으면 전체 리스트 가져오기</p>
+			유저 이름 : <input type="text" id="userName2"><br>
+			<button class="btn btn-primary" id="jQ6">실행</button>
+			<p id="p6" class="border border-danger"></p>
+			<hr>
+			<h3>7. 서버로 기본형 전송값을 보내고, 결과를 맵 객체 받아서 처리</h3>
+			<p>JSON사용</p>
+			<p>유저 이름을 입력하여 해당 유저 정보를 가져오기 -> 유저가 없으면 전체 리스트를 맵 형태로 가져오기</p>
+			유저 이름 : <input type="text" id="userName3"><br>
+			<button class="btn btn-primary" id="jQ7">실행</button>
+			<p id="p7" class="border border-danger"></p>
+			<hr>
+			<h3>8. GSON을 이용한 리스트 반환</h3>
+			<p>GSON</p>
+			<button class="btn btn-primary" id="jQ8">실행</button>
+			<p id="p8" class="border border-danger"></p>
+			<h3>9. GSON을 이용한 맵 반환</h3>
+			<p>GSON</p>
+			<button class="btn btn-primary" id="jQ9">실행</button>
+			<p id="p9" class="border border-danger"></p>
+			<hr>
+			<h3>10. ajax를 이용한 selectbox</h3>
+			<select id="sel1">
+				<option value="서울" selected>서울</option>
+				<option value="경기도">경기도</option>
+			</select>
+			<select id="sel2">
+				
+			</select>			
 		</div>
 	</section>
 </body>
 <script>
+	$(function(){
+		changeSel();	
+	});
+	$("#sel1").change(function(){
+		changeSel();
+	});
+	function changeSel(){
+		var sel = $("#sel1").val();
+		$.ajax({
+			url:"/selAddr",
+			type:"get",
+			data:{sel:sel},
+			success:function(data){
+				var sel2 = $("#sel2");
+				//초기화
+				sel2.empty();
+				for(var i in data){
+					var option = $("<option></option>");
+					//데이터처리할 값
+					option.val(data[i]);
+					//보여줄값
+					option.html(data[i]);
+					//자식으로 추가
+					sel2.append(option);
+				}
+			}
+		});
+	}
+	
 	function jsAjax(){
 		//1.XMLHttpRequest객체생성
 		var xhttp = new XMLHttpRequest();
@@ -130,6 +191,80 @@
 				var age=data.age;
 				var addr=decodeURIComponent(data.addr);
 				$("#p5").html("이름 : "+name+"<br>나이 : "+age+"<br>주소 : "+addr);
+			}
+		});
+	});
+	
+	$("#jQ6").click(function(){
+		var name = $("#userName2").val();	
+		$.ajax({
+			url:"/ajaxTest6",
+			type:"post",
+			//param이름,값
+			data:{name:name},
+			success:function(data){
+				//data는 JSONArray형태(객체배열형태)
+				var resultHtml="";
+				for(var i=0;i<data.length;i++){
+					var name=decodeURIComponent(data[i].name);
+					var age=data[i].age;
+					var addr=decodeURIComponent(data[i].addr);
+					resultHtml += "이름 : "+name+" / 나이 : "+age+" / 주소 : "+addr+"<br>";
+				}
+				$("#p6").html(resultHtml);
+			}
+		});
+	});
+	
+	$("#jQ7").click(function(){
+		var name = $("#userName3").val();
+		$.ajax({
+			url:"/ajaxTest7",
+			type:"post",
+			//param이름,값
+			data:{name:name},
+			success:function(data){
+				//data->map->JSON
+				var resultHtml="";
+				//전체키값(배열형태로 리턴)
+				var keys = Object.keys(data);
+				for(var i=0;i<keys.length;i++){
+					var key=keys[i];
+					var name=decodeURIComponent(data[key].name);
+					var age=data[key].age;
+					var addr=decodeURIComponent(data[key].addr);
+					resultHtml += "이름 : "+name+" / 나이 : "+age+" / 주소 : "+addr+"<br>";
+				}
+				$("#p7").html(resultHtml);
+			}
+		});
+	});
+	
+	$("#jQ8").click(function(){		
+		$.ajax({
+			url:"/ajaxTest8",
+			type:"get",
+			success:function(data){
+				var resultHtml="";				
+				for(var index in data){					
+					resultHtml += "이름 : "+data[index].name+" / 나이 : "+data[index].age+" / 주소 : "+data[index].addr+"<br>";
+				}
+				$("#p8").html(resultHtml);
+			}
+		});
+	});
+	
+	$("#jQ9").click(function(){		
+		$.ajax({
+			url:"/ajaxTest9",
+			type:"get",
+			success:function(data){
+				//data->map->JSON
+				var resultHtml="";				
+				for(var key in data){					
+					resultHtml += "이름 : "+data[key].name+" / 나이 : "+data[key].age+" / 주소 : "+data[key].addr+"<br>";
+				}
+				$("#p9").html(resultHtml);
 			}
 		});
 	});
