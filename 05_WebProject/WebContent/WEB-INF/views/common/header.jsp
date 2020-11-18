@@ -28,7 +28,7 @@
 						<li class="nav-item"><a class="nav-link" href="/boardList?reqPage=1">게시판</a></li>
 						<li class="nav-item"><a class="nav-link" href="/views/ajax.jsp">ajax</a></li>
 						<li class="nav-item"><a class="nav-link" href="/photoList">사진게시판</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">MENU5</a></li>
+						<li class="nav-item"><a class="nav-link" href="/views/api.jsp">API</a></li>
 					</ul>
 				</div>
 				<div class="right-button">

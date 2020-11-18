@@ -27,6 +27,9 @@
 	$(function(){
 		photoMore(1);
 	});
+	$("#more-btn").click(function(){
+		photoMore($(this).val());
+	});
 		function photoMore(start){
 			$.ajax({
 				url:"/photoMore",
@@ -43,6 +46,18 @@
 						html+="<p class='caption'>"+p.photoContent+"</p></div>";
 					}
 					$("#photo-wrapper").append(html);
+					//추가완료 후 더보기 버튼 value값 조정(start+5)
+					//$("#more-btn").val(Number(start)+data.length);
+					$("#more-btn").val(Number(start)+5);
+					//현재 몇번까지 가지고 왔는지 체크
+					var currCount = $("#more-btn").attr("currentCount");					
+					$("#more-btn").attr("currentCount",Number(currCount)+data.length);
+					currCount = $("#more-btn").attr("currentCount");
+					var totalCount = $("#more-btn").attr("totalCount");
+					if(currCount == totalCount){
+						$("#more-btn").attr("disable",true);
+						$("#more-btn").css("cursor","not-allowed");
+					}
 				}
 			});
 		}
