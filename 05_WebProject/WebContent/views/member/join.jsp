@@ -20,7 +20,7 @@
 						<th><label for="memId">아이디</label></th>
 						<td><input type="text" name="memId" id ="memId" class="form-control">
 						<!-- button태그는 기본값이 submit -->
-						<td style="width:150px"><button class="btn btn-primary" onclick="checkId();" type="button">중복체크</button></td>
+						<!-- <td style="width:150px"><button class="btn btn-primary" onclick="checkId();" type="button">중복체크</button></td-->
 						<td style="width:250px;"><span id="idChkMsg"></span></td>
 					</tr>
 					<tr>
@@ -78,6 +78,24 @@
 			//이동할 목적지
 			checkForm.submit();
 		}
+		$("#memId").keyup(function(){
+			var memId = $(this).val();
+			$.ajax({
+				url:"/ajaxCheckId",
+				type:"get",
+				data:{memId:memId},
+				success:function(data){
+					var msg = $("#idChkMsg");
+					if(data==1){
+						msg.html('사용가능');
+						msg.css('color','green');
+					}else{
+						msg.html('사용불가');
+						msg.css('color','red');
+					}
+				}
+			});
+		});
 	</script>
 </body>
 </html>

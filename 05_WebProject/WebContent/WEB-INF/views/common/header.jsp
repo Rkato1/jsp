@@ -27,7 +27,7 @@
 						<li class="nav-item"><a class="nav-link" href="/noticeList?reqPage=1">공지사항</a></li>
 						<li class="nav-item"><a class="nav-link" href="/boardList?reqPage=1">게시판</a></li>
 						<li class="nav-item"><a class="nav-link" href="/views/ajax.jsp">ajax</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">MENU4</a></li>
+						<li class="nav-item"><a class="nav-link" href="/photoList">사진게시판</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">MENU5</a></li>
 					</ul>
 				</div>
