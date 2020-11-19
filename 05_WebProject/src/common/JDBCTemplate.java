@@ -13,7 +13,10 @@ public class JDBCTemplate {
 		Connection conn = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
+			//기존
 			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","webserver","1234");
+			//변경
+			//conn = DriverManager.getConnection("jdbc:oracle:thin:@1.220.236.74:15213:xe","webserver","1234");
 			conn.setAutoCommit(false);//자동으로 커밋되는 설정을 해제
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

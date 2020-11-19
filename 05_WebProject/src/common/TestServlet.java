@@ -1,28 +1,23 @@
-package controller;
+package common;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.vo.MailSend;
-import sun.security.provider.certpath.ResponderId;
-
 /**
- * Servlet implementation class SendMailServlet
+ * Servlet implementation class TestServlet
  */
-@WebServlet(name = "SendMail", urlPatterns = { "/sendMail" })
-public class SendMailServlet extends HttpServlet {
+@WebServlet(name = "Test", urlPatterns = { "/test" })
+public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SendMailServlet() {
+    public TestServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,13 +27,7 @@ public class SendMailServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		request.setCharacterEncoding("utf-8");
-		String email = request.getParameter("email");
-		String mailCode = new MailSend().mailSend(email);
-		System.out.println(mailCode);
-		PrintWriter out = response.getWriter();
-		out.print(mailCode);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

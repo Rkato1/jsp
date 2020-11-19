@@ -32,6 +32,7 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("로그인 서블릿 시작");
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
@@ -55,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("loc", "/views/member/login.jsp");			
 		}
 		rd.forward(request, response);
+		System.out.println("로그인 서블릿 끝");
 	}
 
 	/**

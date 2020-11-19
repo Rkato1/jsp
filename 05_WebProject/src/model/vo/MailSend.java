@@ -35,7 +35,8 @@ public class MailSend {
 		Session session = Session.getDefaultInstance(prop, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				//아이디와 실제 비밀번호
-				return new PasswordAuthentication("silvestr0720@gmail.com", "");				
+				//사용할때만 기입하기
+				return new PasswordAuthentication("silvestr0720@gmail.com", "!Rkato4948");				
 			}
 		});
 		//실제 메일을 써주는 객체
@@ -48,7 +49,7 @@ public class MailSend {
 			msg.setRecipient(Message.RecipientType.TO, to);
 			//제목,인코딩
 			msg.setSubject("인증메일입니다.","UTF-8");
-			msg.setContent("<h1>안녕하세요 인증메일입니다. 인증 번호는 ["+sb.toString()+"]입니다.","UTF-8");
+			msg.setContent("<h1>안녕하세요 인증메일입니다. 인증 번호는 ["+sb.toString()+"]입니다.","text/html;charset=UTF-8");
 			//전송
 			Transport.send(msg);
 		} catch (MessagingException e) {
