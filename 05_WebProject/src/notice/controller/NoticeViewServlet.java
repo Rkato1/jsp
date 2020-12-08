@@ -43,7 +43,9 @@ public class NoticeViewServlet extends HttpServlet {
 			request.setAttribute("loc", "/noticeList?reqPage=1");
 			rd.forward(request, response);
 		}else {
-			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
+			//기존
+			//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView1.jsp");
 			request.setAttribute("n", nvd.getN());
 			request.setAttribute("list", nvd.getList());
 			rd.forward(request, response);

@@ -1,7 +1,6 @@
-package notice.controller;
+package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticePageData;
+import model.service.StudentService;
+import model.vo.Student;
 
 /**
- * Servlet implementation class NoticeListServlet
+ * Servlet implementation class SearchStudentServlet
  */
-@WebServlet(name = "NoticeList", urlPatterns = { "/noticeList" })
-public class NoticeListServlet extends HttpServlet {
+@WebServlet(name = "SearchStudent", urlPatterns = { "/searchStudent" })
+public class SearchStudentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeListServlet() {
+    public SearchStudentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,17 +31,19 @@ public class NoticeListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		NoticePageData npd = new NoticeService().selectList(reqPage);
-		//기존
-		//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeList.jsp");
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeList1.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
-		rd.forward(request, response);
+		int stuNo = Integer.parseInt(request.getParameter("stuNo"));
+		Student s = new StudentService().searchStudent(stuNo);
+		if(s!=null) {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/result.jsp");
+			request.setAttribute("s", s);
+			rd.forward(request, response);
+		}else {
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/msg.jsp");
+			request.setAttribute("msg", "조회실패");
+			request.setAttribute("loc", "/");
+			rd.forward(request, response);
+		}
 	}
 
 	/**
@@ -55,3 +55,4 @@ public class NoticeListServlet extends HttpServlet {
 	}
 
 }
+

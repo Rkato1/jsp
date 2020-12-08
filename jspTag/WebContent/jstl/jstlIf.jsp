@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,11 +8,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>ActionTag / EL / JSTL</h1>
-<hr>
-<h3><a href="/actionTag/jspInclude.jsp">1. jsp:include </a></h3>
-<h3><a href="/actionTag/jspForward.jsp">2. jsp:forward </a></h3>
-<h3><a href="/el/jspEL.jsp">3. EL </a></h3>
-<h3><a href="/jstl/jspJstl.jsp">4. Jstl </a></h3>
+	<c:if test="${num%2==0 }">
+	짝수입니다.
+	</c:if>
+	<c:if test="${num%2==1 }">
+	홀수입니다.
+	</c:if>
 </body>
 </html>

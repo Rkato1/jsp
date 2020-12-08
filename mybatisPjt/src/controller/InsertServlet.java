@@ -1,7 +1,6 @@
-package notice.controller;
+package controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticePageData;
+import model.service.StudentService;
+import model.vo.Student;
 
 /**
- * Servlet implementation class NoticeListServlet
+ * Servlet implementation class InsertServlet
  */
-@WebServlet(name = "NoticeList", urlPatterns = { "/noticeList" })
-public class NoticeListServlet extends HttpServlet {
+@WebServlet(name = "Insert", urlPatterns = { "/insert" })
+public class InsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeListServlet() {
+    public InsertServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,16 +31,22 @@ public class NoticeListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.setCharacterEncoding("utf-8");
-		int reqPage = Integer.parseInt(request.getParameter("reqPage"));
-		NoticePageData npd = new NoticeService().selectList(reqPage);
-		//기존
-		//RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeList.jsp");
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeList1.jsp");
-		request.setAttribute("list", npd.getList());
-		request.setAttribute("pageNavi", npd.getPageNavi());
+		Student s = new Student();
+		s.setStuName(request.getParameter("stuName"));
+		s.setStuPhone(request.getParameter("stuPhone"));
+		s.setEmail(request.getParameter("email"));
+		s.setAddr(request.getParameter("addr"));
+		
+		int result = new StudentService().insert(s);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/msg.jsp");
+		if(result>0) {
+			request.setAttribute("msg", "등록 성공");
+		}else {
+			request.setAttribute("msg", "등록 실패");
+		}
+		request.setAttribute("loc", "/");
 		rd.forward(request, response);
 	}
 

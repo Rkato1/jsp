@@ -7,11 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>ActionTag / EL / JSTL</h1>
-<hr>
-<h3><a href="/actionTag/jspInclude.jsp">1. jsp:include </a></h3>
-<h3><a href="/actionTag/jspForward.jsp">2. jsp:forward </a></h3>
-<h3><a href="/el/jspEL.jsp">3. EL </a></h3>
-<h3><a href="/jstl/jspJstl.jsp">4. Jstl </a></h3>
+	<h1>학생관리 프로그램</h1>
+	<hr>
+	<h1><a href="/view/insertForm.jsp">1. 학생 등록</a></h1>
+	<hr>
+	<form action="/searchStudent">
+		<input type="text" name="stuNo" placeholder="학생번호입력">
+		<input type="submit" value="조회">
+	</form>
 </body>
 </html>

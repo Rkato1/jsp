@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="stu">
+<!-- 넘어오는 변수의 타입 설정 -->
+  <insert id="insertStudent" parameterType="student">
+  	insert into student values(stu_seq.nextval,#{stuName},#{stuPhone},#{email},#{addr})
+  </insert>
+  <!-- int형은 _int로 사용 -->
+  <!-- 변수명이 뭐건 하나만 넘어오면 _parameter로 대체 가능 -->
+  <select id="searchStudent" parameterType="_int" resultType="student">
+  	select
+  		stu_no as stuNo,
+  	 	stu_name as stuName,
+  	  	stu_phone as stuPhone,
+  	   	email,
+  	    addr from student where stu_no=#{_parameter}
+  </select>
+</mapper>
