@@ -15,4 +15,23 @@
   	   	email,
   	    addr from student where stu_no=#{_parameter}
   </select>
+  <!-- list를 반환하지만 어떤 객체형인지를 적어줘야함 -->
+  <select id="searchAllStudent" resultType="student">
+  	select
+  		stu_no as stuNo,
+  	 	stu_name as stuName,
+  	  	stu_phone as stuPhone,
+  	   	email,
+  	    addr from student
+  </select>
+  <select id="deleteStudent" parameterType="_int">
+  	delete from student where stu_no=#{_parameter}
+  </select>
+  <select id="updateStudent" parameterType="map">
+  	update student set
+  		stu_phone=#{stuPhone},
+  		email=#{email},
+  		addr=#{addr}
+  		where stu_no = #{stuNo}
+  </select>
 </mapper>
